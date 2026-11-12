@@ -38,10 +38,11 @@ async function expectToTriggerEvent(target, type, callback) {
 }
 
 describe("Popup options: empty page before edit", () => {
+    let builder;
     // Note: for some reason, `before()` doesn't work.
     // Done in `beforeEach` because frontend JS takes too much time to load.
     beforeEach(async () => {
-        await setupWebsiteBuilder("", {
+        builder = await setupWebsiteBuilder("", {
             loadIframeBundles: true,
             loadAssetsFrontendJS: true,
         });
@@ -52,6 +53,28 @@ describe("Popup options: empty page before edit", () => {
         // Check if the popup is visible.
         expect(":iframe .s_popup .modal").toHaveClass("show");
         expect(":iframe .s_popup .modal").toHaveStyle({ display: "block" });
+    });
+
+    test("undoing the drop of a popup restores the page scroll", async () => {
+        await insertCategorySnippet({ group: "content", snippet: "s_popup" });
+        expect(":iframe body").toHaveClass("modal-open");
+        await expectToTriggerEvent(":iframe .s_popup .modal", "hidden.bs.modal", () =>
+            undo(builder.getEditor())
+        );
+        expect(":iframe .s_popup").toHaveCount(0);
+        expect(":iframe body").not.toHaveClass("modal-open");
+        expect(":iframe body").not.toHaveStyle({ overflow: "hidden" });
+    });
+
+    test("removing a popup restores the page scroll", async () => {
+        await insertCategorySnippet({ group: "content", snippet: "s_popup" });
+        await contains(":iframe .s_popup .modal section").click();
+        await expectToTriggerEvent(":iframe .s_popup .modal", "hidden.bs.modal", () =>
+            contains("[data-container-title='Popup'] .oe_snippet_remove").click()
+        );
+        expect(":iframe .s_popup").toHaveCount(0);
+        expect(":iframe body").not.toHaveClass("modal-open");
+        expect(":iframe body").not.toHaveStyle({ overflow: "hidden" });
     });
 
     test("dropping the popup snippet then previewing background colors keep it visible", async () => {
