@@ -96,6 +96,54 @@ stepUtils.autoExpandMoreButtons(),
     trigger: '.o_form_saved',
 },
 {
+    trigger: '.o_form_button_create',
+    content: "Create component 1",
+    run: "click",
+}, {
+    trigger: '.o_field_widget[name=name] textarea',
+    run: "edit the_flow.component1",
+}, {
+    trigger: '.o_form_button_save',
+    run: "click",
+}, {
+    trigger: ".o_form_saved",
+},
+{
+    trigger: '.o_form_button_create',
+    content: "Create component 2",
+    run: "click",
+}, {
+    trigger: '.o_field_widget[name=name] textarea',
+    run: "edit the_flow.component2",
+}, {
+    // lots and serial numbers are on
+    isActive: [".o_field_widget[name=store_by]"],
+    trigger: ".o_field_widget[name=store_by] .dropdown-toggle",
+    content: "Open tracking menu",
+    run: "click",
+}, {
+    isActive: [".o_field_widget[name=store_by]"],
+    trigger: ".o_select_menu_item:contains('By Quantity')",
+    content: "Select By Quantity",
+    run: "click",
+}, {
+    // lots and serial numbers are off
+    isActive: [".o_field_widget[name=is_storable]"],
+    trigger: ".o_field_widget[name=is_storable] input",
+    content: "Enable inventory tracking",
+    run: "click",
+},
+// {
+//     trigger: ".breadcrumb-item:has(a:contains('Products')) a",
+//     content: "Go back to Products kanban",
+//     run: "click",
+// }, {
+//     trigger: ".o_kanban_record:contains('the_flow.product')",
+//     content: "Re-open the_flow.product",
+//     run: "click",
+// },
+stepUtils.autoExpandMoreButtons(),
+{
     trigger: ".oe_stat_button div[name=bom_count]",
     content: 'See Bill of material',
     run: "click",
@@ -113,10 +161,16 @@ stepUtils.autoExpandMoreButtons(),
     trigger: ".o_field_x2many_list_row_add > button",
     content: "Click here to add some lines.",
     run: "click",
-}, {
+},{
+    isActive: ["mobile"],
+    trigger: ".o_selected_row .o_required_modifier[name=product_id] input",
+    content: "Click the row to see the products.",
+    run: "click",
+},
+{
     isActive: ["desktop"],
     trigger: ".o_selected_row .o_required_modifier[name=product_id] input",
-    content: "Select a product, or create a new one on the fly.",
+    content: "Click the row to see the products.",
     run: "edit the_flow.component1",
 }, {
     isActive: ["desktop"],
@@ -135,7 +189,7 @@ stepUtils.autoExpandMoreButtons(),
 }, {
     isActive: ["mobile"],
     trigger: '.modal-body .o_form_editable .o_field_widget[name="name"] textarea',
-    content: "Select a product, or create a new one on the fly.",
+    content: "Select a product",
     run: "edit the_flow.component1",
 }, {
 // Edit first component
@@ -308,7 +362,7 @@ stepUtils.autoExpandMoreButtons(),
 },
 {
     isActive: ["mobile"],
-    trigger: ".modal:not(.o_inactive_modal) .modal-dialog .btn:contains(New)",
+    trigger: ".modal:not(.o_inactive_modal) .modal-dialog .btn:contains('New')",
     content: "Click here to add new line.",
     run: "click",
 }, {

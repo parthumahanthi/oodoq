@@ -98,7 +98,8 @@ class BaseTestUi(AccountTestMockOnlineSyncCommon):
             'default_account_id': bnk.id,
         })
 
-        self.start_tour("/odoo", 'main_flow_tour', login="admin", timeout=180)
+        # self.start_tour("/odoo", 'main_flow_tour', login="admin", timeout=180)
+        self.start_tour("/odoo", 'main_flow_tour', step_delay=500, debug=True, login="admin", timeout=180)
 
 
 @odoo.tests.tagged('post_install', '-at_install', 'is_tour')
